@@ -34,7 +34,7 @@ Example of Usage:
 =================
 The example at the bottom shows how the system operates by simulating the energizing of sensors and pressing the stop button.
 Execution:
-Run the script to simulate the water level controller operation.
+python3 Backend-structure.py // Run the script to simulate the water level controller operation.
 The console output will show the state of the system at different points, reflecting the actions taken when the sensors are energized or the stop button is pressed.
 ```
 
