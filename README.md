@@ -39,5 +39,5 @@ The console output will show the state of the system at different points, reflec
 ```
 
 ## Authors
-Lawrence Denhere - [Github](https://github.com/Law93D) / [Twitter](https://x.com/)
+Lawrence Denhere - [Github](https://github.com/Law93D) / [Twitter](https://x.com/LawDen93)
 Ogofoluwa Ibitola - [Github](https://github.com/folujam) / [Twitter](https://x.com/ogofoluwa)
