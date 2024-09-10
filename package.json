@@ -1,23 +1,26 @@
 {
     "name": "portfolio-projects",
     "version": "1.0.0",
-    "description": "Explanation of the Code:\r Initialization (__init__ Method):",
+    "description": "A collection of portfolio projects.",
     "main": "server.js",
     "scripts": {
-      "test": "echo \"Error: no test specified\" && exit 1",
-      "start": "node server.js"
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "node server.js"
     },
-    "keywords": [],
-    "author": "",
+    "keywords": ["portfolio", "projects"],
+    "author": "Lawrence Denhere & Folu Ibitola",
     "license": "ISC",
     "dependencies": {
-      "bootstrap": "^5.3.3",
-      "express": "^4.19.2",
-      "jquery": "^3.7.1",
-      "socket.io": "^4.7.5"
+        "bcryptjs": "^2.4.3",
+        "bootstrap": "^5.3.3",
+        "express": "^4.19.2",
+        "jquery": "^3.7.1",
+        "jsonwebtoken": "^9.0.2",
+        "mongoose": "^8.6.1",
+        "socket.io": "^4.7.5"
     },
     "devDependencies": {
-      "live-server": "^1.2.2"
+        "live-server": "^1.2.2"
     }
-  }
-  
+}
+
