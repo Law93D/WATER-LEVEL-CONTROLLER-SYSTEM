@@ -53,7 +53,8 @@ class WaterLevelController:
             self.valve = False  # Ensure the valve is closed
             self.display_screen = "Low Level - Filling"
         elif self.high_level_sensor:
-            # High-level sensor is on; stop pumps and open the valve after a delay
+            # High-level sensor is on;
+            # stop pumps and open the valve after a delay
             self.pump_1 = False
             self.pump_2 = False
             self.display_screen = "Tank Full"
