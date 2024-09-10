@@ -33,8 +33,64 @@ Provides a text representation of the current state of the system, which is usef
 Example of Usage:
 =================
 The example at the bottom shows how the system operates by simulating the energizing of sensors and pressing the stop button.
+
+### Auth & Auth with Hashed Passwords
+•	authMiddleware: Ensures that only authenticated users can access these routes.
+•	SystemState Model: Represents the current state of the system (stored in MongoDB).
+•	Real-Time Updates: After each state change, the new state is emitted to connected clients using req.io.emit('update', systemState).
+•	Routes:
+o	GET /api/water/status: Returns the current system state.
+o	POST /api/water/start: Starts the pumps and updates the system state to "running".
+o	POST /api/water/stop: Stops the pumps and closes the valve.
+o	POST /api/water/high_level_sensor: Simulates the high-level sensor triggering the valve to discharge water.
+
+Dynamic Aspects of the Project
+1.	Real-Time System Updates:
+o	The system involves real-time updates, where the state of pumps, valves, and tank levels changes based on sensor inputs and user interactions.
+o	The backend handles real-time communication using technologies like WebSockets (with Socket.io) to update the frontend dynamically.
+2.	Real-Time Communication:
+o	The use of Node.js with Express and Socket.io allows for real-time communication between the server and clients.
+o	This means that changes in the system’s state (e.g., pump status, valve position) are communicated in real time to the frontend, updating the display immediately.
+3.	Interactive Frontend:
+o	The frontend uses HTML, CSS, and JavaScript to interact with the backend, displaying dynamic content based on the system’s state.
+o	User interactions with the web interface can trigger updates and reflect changes in the system's status.
+4.	Backend Logic:
+o	The backend, written in Python, dynamically processes input from sensors and manages the state of the system.
+o	It updates the system’s state based on sensor inputs and communicates these updates to the frontend in real time.
+
 Execution:
-python3 Backend-structure.py // Run the script to simulate the water level controller operation.
+## node<filename> // Run the script to test the files
+PS C:\Users\Lenovo\OneDrive\Desktop\ALX Projects Backend\Water-Level-Controller-System> node <filename>
+PS C:\Users\Lenovo\OneDrive\Desktop\ALX Projects Backend\Water-Level-Controller-System> 
+
+## python3 Backend-structure.py // Run the script to simulate the water level controller operation.
+PS C:\Users\Lenovo\OneDrive\Desktop\ALX Projects Backend\Water-Level-Controller-System>python3 Backend-structure.py
+Display: Idle
+Pump 1: OFF
+Pump 2: OFF
+Valve: CLOSED
+
+Display: Low Level – Filling
+Pump 1: ON
+Pump 2: ON
+Valve: CLOSED
+
+Display: Running – Discharging
+Pump 1: OFF
+Pump 2: OFF
+Valve: OPEN
+
+Display: System Stopped
+Pump 1: OFF
+Pump 2: OFF
+Valve: CLOSED
+PS C:\Users\Lenovo\OneDrive\Desktop\ALX Projects Backend\Water-Level-Controller-System>
+
+## Server.js ?? Run (node server.js) command to connect on port${5000}.
+PS C:\Users\Lenovo\OneDrive\Desktop\ALX Projects Backend\Water-Level-Controller-System> node server.js                                                 
+Server is running on port 5000
+MongoDB connected
+
 The console output will show the state of the system at different points, reflecting the actions taken when the sensors are energized or the stop button is pressed.
 ```
 
