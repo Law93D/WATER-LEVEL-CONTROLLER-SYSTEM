@@ -19,7 +19,11 @@ router.post('/register', async (req, res) => {
     await user.save(); // Save the new user to the database
     res.status(201).json({ message: 'User registered' }); // Respond with success message
   } catch (err) {
-    res.status(400).json({ error: err.message }); // Handle validation or saving errors
+    if (err.code === 11000) { // Duplicate key error
+      res.status(400).json({ error: 'Username already exists' });
+    } else {
+    res.status(400).json({ error: err.message });
+    } // Handle validation or saving errors
   }
 });
 
