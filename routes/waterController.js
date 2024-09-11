@@ -33,7 +33,19 @@ router.get('/status', authMiddleware, async (req, res) => {
  */
 router.post('/start', authMiddleware, async (req, res) => {
   try {
-    const systemState = await SystemState.findOne();
+    let systemState = await SystemState.findOne();
+
+    if (!systemState) {
+      // Initialize default state if none exists
+      systemState = new SystemState({
+        running: false,
+        display: 'Idle',
+        pump1: false,
+        pump2: false,
+        valve: true
+      });
+    }
+
     if (!systemState.running) {
       // Update system state to indicate that it's running
       systemState.running = true;
@@ -113,7 +125,7 @@ router.post('/high_level_sensor', authMiddleware, async (req, res) => {
 
       res.json(systemState); // Return the updated state
     } else {
-      res.status(400).json({ message: 'System is not running' }); // Handle if system isn't running
+      res.status(400).json({ message: 'Valve is open - Discharging' }); // Handle if system isn't running
     }
   } catch (err) {
     res.status(500).json({ error: 'Server error: ' + err.message }); // Handle server errors

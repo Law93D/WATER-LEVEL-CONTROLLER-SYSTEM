@@ -14,10 +14,18 @@ require('dotenv').config(); // Load environment variables from .env file
  */
 const authMiddleware = (req, res, next) => {
   // Retrieve token from the Authorization header
-  const token = req.header('Authorization');
+  const authHeader = req.header('Authorization');
 
   // If no token is provided, deny access
-  if (!token) return res.status(401).json({ message: 'Access denied' });
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return res.status(401).json({ message: 'Access denied. No token provided.' });
+  }
+
+  // Check if the header contains the "Bearer" token format
+  const token = authHeader.replace('Bearer ', '');
+  if (!token) {
+    return res.status(401).json({ message: 'Access denied. Malformed token.' });
+  }
 
   try {
     // Verify the token using the secret from environment variables

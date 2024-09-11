@@ -22,6 +22,12 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
 
+// Middleware to attach io to req
+app.use((req, res, next) => {
+    req.io = io; // Attach io to req
+    next();
+  });
+
 /**
  * Initial system state for the water control system.
  * - display: Current status of the system (e.g., 'Idle').
