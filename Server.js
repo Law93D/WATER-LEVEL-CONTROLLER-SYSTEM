@@ -34,6 +34,7 @@ app.use((req, res, next) => {
  * - pump1, pump2, valve: Boolean values representing the state of each component.
  * - running: Indicates whether the system is running.
  */
+
 let systemState = {
     display: 'Idle',
     pump1: false,
