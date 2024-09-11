@@ -91,13 +91,40 @@ Pump 2: OFF
 Valve: CLOSED
 PS C:\Users\Lenovo\OneDrive\Desktop\ALX Projects Backend\Water-Level-Controller-System>
 
-## Server.js ?? Run (node server.js) command to connect on port${5000}
+## Server.js ?? Run (node server.js/ npm start) command to connect on port${5000}
 
 PS C:\Users\Lenovo\OneDrive\Desktop\ALX Projects Backend\Water-Level-Controller-System> node server.js
 Server is running on port 5000
 MongoDB connected
 
 The console output will show the state of the system at different points, reflecting the actions taken when the sensors are energized or the stop button is pressed.
+
+## Running Curl Commands in the terminal for Testing the system if it is working fine
+
+1.User Register (post): This endpoint creates a new user in your system.
+
+$ curl -X POST curl -X POST <http://localhost:5000/api/auth/register> -H "Content-Type: application/json" -d '{"username":"<your_username>","password":"<123******>"}'
+
+2.User Login (post): This will authenticate a user and return a JWT token.
+$ curl -X POST <http://localhost:5000/api/auth/login> -H "Content-Type: application/json" -d '{"username": "<your_username>", "password": "*****6789"}'
+The response will include a token. Use this token for subsequent authenticated requests.
+
+3.Start the Water Control System (POST): To start the system (e.g., turn on the pumps), use the JWT token from the login response.
+$ curl -X POST <http://localhost:5000/api/water/start> -H "Content-Type: application/json" -H "Authorization: Bearer <your_jwt_token>"
+{"_id":"66e20e9e1af0d06317495bd5","display":"Low Level - Filling","pump1":true,"pump2":true,"valve":false,"running":true,"__v":0}
+replace <your_jwt_token> with the actual JWT you received from the login endpoint.
+
+4.Stop the Water Control System (POST): This command stops the system (turns off pumps).
+$ curl -X POST <http://localhost:5000/api/water/stop> -H "Content-Type: application/json" -H "Authorization: Bearer <your_jwt_token>"
+{"_id":"66e20e9e1af0d06317495bd5","display":"System Stopped","pump1":false,"pump2":false,"valve":false,"running":false,"__v":0}
+
+5.Get Current System Status (GET): This command retrieves the current status of the system (e.g., pump and valve states).
+$ curl -X GET <http://localhost:5000/api/water/status> -H "Authorization: Bearer <your_jwt_token>"
+{"_id":"66e20e9e1af0d06317495bd5","display":"System Stopped","pump1":false,"pump2":false,"valve":false,"running":false,"__v":0}
+
+6.Simulate High-Level Sensor (POST): This simulates the water reaching the high level and triggers actions like opening the valve.
+$ curl -X POST <http://localhost:5000/api/water/high_level_sensor> -H "Authorization: Bearer <your_jwt_token>"
+{"message":"Valve is open - Discharging"}
 
 ## Authors
 
