@@ -12,6 +12,7 @@ require('dotenv').config(); // Load environment variables from .env file
  * @param {object} res - The HTTP response object
  * @param {function} next - The next middleware function in the stack
  */
+
 const authMiddleware = (req, res, next) => {
   // Retrieve token from the Authorization header
   const authHeader = req.header('Authorization');
