@@ -99,7 +99,7 @@ MongoDB connected
 
 The console output will show the state of the system at different points, reflecting the actions taken when the sensors are energized or the stop button is pressed.
 
-## Running Curl Commands in the terminal for Testing the system if it is working fine
+## Running Curl Commands in the terminal for Testing the system API
 
 1.User Register (post): This endpoint creates a new user in your system.
 
