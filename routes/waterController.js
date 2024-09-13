@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const logger = require('../logger'); // import the logger
 const authMiddleware = require('../middleware/authMiddleware'); // Import the authentication middleware
 const SystemState = require('../models/SystemState'); // Import the SystemState model for MongoDB
 
@@ -17,6 +18,7 @@ router.get('/status', authMiddleware, async (req, res) => {
     const systemState = await SystemState.findOne();
     res.json(systemState);
   } catch (err) {
+    logger.error('Server error at status:', err);
     res.status(500).json({ error: 'Server error: ' + err.message });
   }
 });
@@ -36,6 +38,7 @@ router.post('/start', authMiddleware, async (req, res) => {
     let systemState = await SystemState.findOne();
 
     if (!systemState) {
+      logger.info('No systemState found, init default..');
       // Initialize default state if none exists
       systemState = new SystemState({
         running: false,
@@ -47,6 +50,7 @@ router.post('/start', authMiddleware, async (req, res) => {
     }
 
     if (!systemState.running) {
+      logger.info('start systemState running, low-lvl fill, pumps on');
       // Update system state to indicate that it's running
       systemState.running = true;
       systemState.display = 'Low Level - Filling';
@@ -59,9 +63,11 @@ router.post('/start', authMiddleware, async (req, res) => {
 
       res.json(systemState); // Return the updated state
     } else {
+      logger.info('System is already running');
       res.status(400).json({ message: 'System is already running' }); // Handle if system is already running
     }
   } catch (err) {
+    logger.error('Server error at start:', err);
     res.status(500).json({ error: 'Server error: ' + err.message }); // Handle server errors
   }
 });
@@ -80,6 +86,7 @@ router.post('/stop', authMiddleware, async (req, res) => {
   try {
     const systemState = await SystemState.findOne();
     if (systemState.running) {
+      logger.info('stoping system...');
       // Update system state indicate it's stopped
       systemState.running = false;
       systemState.display = 'System Stopped';
@@ -89,12 +96,15 @@ router.post('/stop', authMiddleware, async (req, res) => {
 
       await systemState.save(); // Save the updated state to the database
       req.io.emit('update', systemState); // Emit real-time update to connected clients
+      logger.info('stop success');
 
       res.json(systemState); // Return the updated state
     } else {
+      logger.info('system already stopped');
       res.status(400).json({ message: 'System is already stopped' }); // Handle if system is already stopped
     }
   } catch (err) {
+    logger.error('Server error at stop:', err);
     res.status(500).json({ error: 'Server error: ' + err.message }); // Handle server errors
   }
 });
@@ -114,6 +124,7 @@ router.post('/high_level_sensor', authMiddleware, async (req, res) => {
   try {
     const systemState = await SystemState.findOne();
     if (systemState.running) {
+      logger.info('high-lvl sensor triggered, pumps off, discharging');
       // Update system state to indicate high-level sensor triggered discharge
       systemState.display = 'Running - Discharging';
       systemState.pump1 = false;
@@ -125,9 +136,11 @@ router.post('/high_level_sensor', authMiddleware, async (req, res) => {
 
       res.json(systemState); // Return the updated state
     } else {
+      logger.info('Valve is open - Discharging');
       res.status(400).json({ message: 'Valve is open - Discharging' }); // Handle if system isn't running
     }
   } catch (err) {
+    logger.error('Server error at high-lvl sensor:', err);
     res.status(500).json({ error: 'Server error: ' + err.message }); // Handle server errors
   }
 });

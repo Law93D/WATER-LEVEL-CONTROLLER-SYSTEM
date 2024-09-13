@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const logger = require('../logger'); // import logger
 require('dotenv').config(); // Load environment variables from .env file
 
 /**
@@ -14,23 +15,27 @@ require('dotenv').config(); // Load environment variables from .env file
  */
 
 const authMiddleware = (req, res, next) => {
+  logger.debug('Auth middleware started'); // logging the start of auth middleware
   // Retrieve token from the Authorization header
   const authHeader = req.header('Authorization');
 
   // If no token is provided, deny access
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    logger.error('Access denied. No token provided.'); // Log the error
     return res.status(401).json({ message: 'Access denied. No token provided.' });
   }
 
   // Check if the header contains the "Bearer" token format
   const token = authHeader.replace('Bearer ', '');
   if (!token) {
+    logger.error('Access denied. malformed token provided.'); // Log the error
     return res.status(401).json({ message: 'Access denied. Malformed token.' });
   }
 
   try {
     // Verify the token using the secret from environment variables
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    logger.info('Access granted: token successfully verified');
 
     // Attach the decoded user information to the request object
     req.user = decoded;
@@ -38,6 +43,7 @@ const authMiddleware = (req, res, next) => {
     // Call the next middleware function
     next();
   } catch (err) {
+    logger.error('Access denied. invalid token', err); // Log the error
     // If the token is invalid, return an error response
     res.status(400).json({ message: 'Invalid token' });
   }

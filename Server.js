@@ -1,9 +1,9 @@
 /**
  * Express Server with MongoDB, Socket.io, and Water Controller API
- * 
+ *
  * This Node.js server application uses Express for handling routes,
  * Mongoose for MongoDB interactions, and Socket.io for real-time communication.
- * 
+ *
  * Environment variables:
  * - MONGO_URI: MongoDB connection string
  * - PORT: Port number for the server to listen on
@@ -13,6 +13,7 @@ const express = require('express');
 const http = require('http');
 const socketIo = require('socket.io');
 const mongoose = require('mongoose');
+const logger = require('./logger');
 const authMiddleware = require('./middleware/authMiddleware');
 const authRoutes = require('./routes/auth');
 const waterControllerRoutes = require('./routes/waterController');
@@ -24,9 +25,9 @@ const io = socketIo(server);
 
 // Middleware to attach io to req
 app.use((req, res, next) => {
-    req.io = io; // Attach io to req
-    next();
-  });
+  req.io = io; // Attach io to req
+  next();
+});
 
 /**
  * Initial system state for the water control system.
@@ -35,12 +36,12 @@ app.use((req, res, next) => {
  * - running: Indicates whether the system is running.
  */
 
-let systemState = {
-    display: 'Idle',
-    pump1: false,
-    pump2: false,
-    valve: false,
-    running: false
+const systemState = {
+  display: 'Idle',
+  pump1: false,
+  pump2: false,
+  valve: false,
+  running: false
 };
 
 // Middleware to parse JSON bodies
@@ -61,8 +62,8 @@ app.use('/api/water', authMiddleware, waterControllerRoutes);
  * If an error occurs, it is logged.
  */
 mongoose.connect(process.env.MONGO_URI)
-.then(() => console.log('MongoDB connected'))
-.catch(err => console.error('MongoDB connection error:', err));
+  .then(() => logger.info('MongoDB connected'))
+  .catch(err => logger.error('MongoDB connection error:', err));
 
 /**
  * Handle socket connection for real-time updates.
@@ -70,12 +71,12 @@ mongoose.connect(process.env.MONGO_URI)
  * - Logs connection and disconnection events.
  */
 io.on('connection', (socket) => {
-    console.log('New client connected');
-    socket.emit('update', systemState); // Send current state to new client
+  logger.info('New client connected');
+  socket.emit('update', systemState); // Send current state to new client
 
-    socket.on('disconnect', () => {
-        console.log('Client disconnected');
-    });
+  socket.on('disconnect', () => {
+    logger.info('Client disconnected');
+  });
 });
 
 /**
@@ -84,5 +85,5 @@ io.on('connection', (socket) => {
  */
 const PORT = process.env.PORT || 5000;
 server.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+  logger.debug(`Server is running on port ${PORT}`);
 });

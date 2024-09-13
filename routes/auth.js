@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const logger = require('../logger'); // import the logger
 const User = require('../models/User'); // Import the User model for MongoDB
 const jwt = require('jsonwebtoken'); // Import JWT for token creation
 require('dotenv').config(); // Load environment variables from .env file
@@ -17,12 +18,14 @@ router.post('/register', async (req, res) => {
   try {
     const user = new User({ username, password }); // Create a new user instance
     await user.save(); // Save the new user to the database
+    logger.debug('User registered successfully');
     res.status(201).json({ message: 'User registered' }); // Respond with success message
   } catch (err) {
     if (err.code === 11000) { // Duplicate key error
       res.status(400).json({ error: 'Username already exists' });
     } else {
-    res.status(400).json({ error: err.message });
+      logger.error('validation error at /register');
+      res.status(400).json({ error: err.message });
     } // Handle validation or saving errors
   }
 });
@@ -40,14 +43,17 @@ router.post('/login', async (req, res) => {
   try {
     const user = await User.findOne({ username }); // Find user by username
     if (!user || !(await user.comparePassword(password))) {
+      logger.error('Invalid credentials: Incorrect User or password');
       // If user is not found or password doesn't match, return an error
       return res.status(400).json({ error: 'Invalid credentials' });
     }
     // Generate a JWT token valid for 1 hour
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '6h' });
+    logger.debug('token successfully created');
     // Respond with the generated token
     res.json({ token });
   } catch (err) {
+    logger.error('Error at /login', err);
     res.status(500).json({ error: err.message }); // Handle server errors
   }
 });

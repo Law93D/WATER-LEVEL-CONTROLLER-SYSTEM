@@ -29,22 +29,7 @@ Shuts down the system when the stop button is pressed, turning off the pumps and
 
 Provides a text representation of the current state of the system, which is useful for debugging or displaying the status.
 
-Example of Usage:
-
-The example at the bottom shows how the system operates by simulating the energizing of sensors and pressing the stop button.
-
-### Auth & Auth with Hashed Passwords
-
-authMiddleware: Ensures that only authenticated users can access these routes.
-SystemState Model: Represents the current state of the system (stored in MongoDB).
-Real-Time Updates: After each state change, the new state is emitted to connected clients using req.io.emit('update', systemState).
-Routes:
-GET /api/water/status: Returns the current system state.
-POST /api/water/start: Starts the pumps and updates the system state to "running".
-POST /api/water/stop: Stops the pumps and closes the valve.
-POST /api/water/high_level_sensor: Simulates the high-level sensor triggering the valve to discharge water.
-
-Dynamic Aspects of the Project
+## Dynamic Aspects of the Project
 1.Real-Time System Updates:
 The system involves real-time updates, where the state of pumps, valves, and tank levels changes based on sensor inputs and user interactions.
 The backend handles real-time communication using technologies like WebSockets (with Socket.io) to update the frontend dynamically.
@@ -58,16 +43,32 @@ User interactions with the web interface can trigger updates and reflect changes
 The backend, written in Python, dynamically processes input from sensors and manages the state of the system.
 It updates the system’s state based on sensor inputs and communicates these updates to the frontend in real time.
 
+## Auth & Auth with Hashed Passwords
+
+authMiddleware: Ensures that only authenticated users can access these routes.
+SystemState Model: Represents the current state of the system (stored in MongoDB).
+Real-Time Updates: After each state change, the new state is emitted to connected clients using req.io.emit('update', systemState).
+
+## Example of Usage:
+
+The example at the bottom shows how the system operates by simulating the energizing of sensors and pressing the stop button.
+
+### Auth & Auth with Hashed Passwords
+
+authMiddleware: Ensures that only authenticated users can access these routes.
+SystemState Model: Represents the current state of the system (stored in MongoDB).
+Real-Time Updates: After each state change, the new state is emitted to connected clients using req.io.emit('update', systemState).
+Routes:
+`GET /api/water/status`: Returns the current system state.
+`POST /api/water/start`: Starts the pumps and updates the system state to "running".
+`POST /api/water/stop`: Stops the pumps and closes the valve.
+`POST /api/water/high_level_sensor`: Simulates the high-level sensor triggering the valve to discharge water.
+
 Execution:
-
-## node (filename)
-
-// Run the script to test the files
-PS C:\Users\Lenovo\OneDrive\Desktop\ALX Projects Backend\Water-Level-Controller-System> node (filename)
-PS C:\Users\Lenovo\OneDrive\Desktop\ALX Projects Backend\Water-Level-Controller-System>
-
-## python3 Backend-structure.py
-
+### run Backend-structure for simulation
+```
+ python3 Backend-structure.py
+```
 // Run the script to simulate the water level controller operation
 PS C:\Users\Lenovo\OneDrive\Desktop\ALX Projects Backend\Water-Level-Controller-System>python3 Backend-structure.py
 Display: Idle
@@ -91,7 +92,11 @@ Pump 2: OFF
 Valve: CLOSED
 PS C:\Users\Lenovo\OneDrive\Desktop\ALX Projects Backend\Water-Level-Controller-System>
 
-## Server.js ?? Run (node server.js/ npm start) command to connect on port${5000}
+### Server.js ?? Run 
+```
+node server.js/ npm start
+```
+ command to connect on port${5000}
 
 PS C:\Users\Lenovo\OneDrive\Desktop\ALX Projects Backend\Water-Level-Controller-System> node server.js
 Server is running on port 5000
@@ -99,33 +104,41 @@ MongoDB connected
 
 The console output will show the state of the system at different points, reflecting the actions taken when the sensors are energized or the stop button is pressed.
 
-## Running Curl Commands in the terminal for Testing the system API
+### Running Curl Commands in the terminal for Testing the system API
 
 1.User Register (post): This endpoint creates a new user in your system.
-
+```
 $ curl -X POST curl -X POST <http://localhost:5000/api/auth/register> -H "Content-Type: application/json" -d '{"username":"<your_username>","password":"<123******>"}'
-
+```
 2.User Login (post): This will authenticate a user and return a JWT token.
+```
 $ curl -X POST <http://localhost:5000/api/auth/login> -H "Content-Type: application/json" -d '{"username": "<your_username>", "password": "*****6789"}'
+```
 The response will include a token. Use this token for subsequent authenticated requests.
 
 3.Start the Water Control System (POST): To start the system (e.g., turn on the pumps), use the JWT token from the login response.
+```
 $ curl -X POST <http://localhost:5000/api/water/start> -H "Content-Type: application/json" -H "Authorization: Bearer <your_jwt_token>"
 {"_id":"66e20e9e1af0d06317495bd5","display":"Low Level - Filling","pump1":true,"pump2":true,"valve":false,"running":true,"__v":0}
+```
 replace <your_jwt_token> with the actual JWT you received from the login endpoint.
 
 4.Stop the Water Control System (POST): This command stops the system (turns off pumps).
+```
 $ curl -X POST <http://localhost:5000/api/water/stop> -H "Content-Type: application/json" -H "Authorization: Bearer <your_jwt_token>"
 {"_id":"66e20e9e1af0d06317495bd5","display":"System Stopped","pump1":false,"pump2":false,"valve":false,"running":false,"__v":0}
+```
 
 5.Get Current System Status (GET): This command retrieves the current status of the system (e.g., pump and valve states).
+```
 $ curl -X GET <http://localhost:5000/api/water/status> -H "Authorization: Bearer <your_jwt_token>"
 {"_id":"66e20e9e1af0d06317495bd5","display":"System Stopped","pump1":false,"pump2":false,"valve":false,"running":false,"__v":0}
-
+```
 6.Simulate High-Level Sensor (POST): This simulates the water reaching the high level and triggers actions like opening the valve.
+```
 $ curl -X POST <http://localhost:5000/api/water/high_level_sensor> -H "Authorization: Bearer <your_jwt_token>"
 {"message":"Valve is open - Discharging"}
-
+```
 ## Authors
 
 Lawrence Denhere - [Github](https://github.com/Law93D) / [Twitter](https://x.com/LawDen93)
