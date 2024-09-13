@@ -86,7 +86,7 @@ router.post('/stop', authMiddleware, async (req, res) => {
   try {
     const systemState = await SystemState.findOne();
     if (systemState.running) {
-      logger.info('stoping system...');
+      logger.info('stopping system...');
       // Update system state indicate it's stopped
       systemState.running = false;
       systemState.display = 'System Stopped';
