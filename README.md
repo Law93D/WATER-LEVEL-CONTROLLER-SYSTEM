@@ -51,9 +51,9 @@ SystemState Model: Represents the current state of the system (stored in MongoDB
 Real-Time Updates: After each state change, the new state is emitted to connected clients using req.io.emit('update', systemState).
 
 ## Dependencies
-install winston for logger `cd ~/MyApp` `npm install winston`
-install dotenv `npm install dotenv`
-install express and Mongodb/Mongosh if not yet installed
+* install winston for logger `cd ~/MyApp` `npm install winston`
+* install dotenv `npm install dotenv`
+* install express and Mongodb/Mongosh if not yet installed
 
 ## Example of Usage
 
@@ -118,33 +118,33 @@ The console output will show the state of the system at different points, reflec
 curl -X POST curl -X POST http://localhost:5000/api/auth/register -H "Content-Type: application/json" -d '{"username":"<your_username>","password":"<123******>"}'
 ```
 2.User Login (post): This will authenticate a user and return a JWT token.
-
+```
 curl -X POST http://localhost:5000/api/auth/login -H "Content-Type: application/json" -d '{"username": "<your_username>", "password": "*****6789"}'
-
+```
 The response will include a token. Use this token for subsequent authenticated requests.
 
 3.Start the Water Control System (POST): To start the system (e.g., turn on the pumps), use the JWT token from the login response.
-
+```
 curl -X POST http://localhost:5000/api/water/start -H "Content-Type: application/json" -H "Authorization: Bearer <your_jwt_token>"
 {"_id":"66e20e9e1af0d06317495bd5","display":"Low Level - Filling","pump1":true,"pump2":true,"valve":false,"running":true,"__v":0}
-
+```
 replace <your_jwt_token> with the actual JWT you received from the login endpoint.
 
 4.Stop the Water Control System (POST): This command stops the system (turns off pumps).
-
+```
 curl -X POST http://localhost:5000/api/water/stop -H "Content-Type: application/json" -H "Authorization: Bearer <your_jwt_token>"
 {"_id":"66e20e9e1af0d06317495bd5","display":"System Stopped","pump1":false,"pump2":false,"valve":false,"running":false,"__v":0}
-
+```
 5.Get Current System Status (GET): This command retrieves the current status of the system (e.g., pump and valve states).
-
+```
 curl -X GET http://localhost:5000/api/water/status -H "Authorization: Bearer <your_jwt_token>"
 {"_id":"66e20e9e1af0d06317495bd5","display":"System Stopped","pump1":false,"pump2":false,"valve":false,"running":false,"__v":0}
-
+```
 6.Simulate High-Level Sensor (POST): This simulates the water reaching the high level and triggers actions like opening the valve.
-
+```
 curl -X POST http://localhost:5000/api/water/high_level_sensor -H "Authorization: Bearer <your_jwt_token>"
 {"message":"Valve is open - Discharging"}
-
+```
 ## Authors
 
 Lawrence Denhere - [Github](https://github.com/Law93D) / [Twitter](https://x.com/LawDen93)
