@@ -6,48 +6,48 @@ Initialization (__init__ Method):
 Initializes the pumps, valve, sensors, display screen, and stop button to their default states.
 
 [Backend-structure.py](./Backend-structure.py)
-`energize_low_level()` and `energize_high_level()` simulate the closing of contacts for the low and high-level sensors, respectively.
-When a sensor is energized, the `update_system()` method is called to adjust the system’s state.
-`stop_system(self)` - stop system
-`delayed_valve_open(self)` - delays valve opening for 9-seconds
-`shutdown_system(self)` - shutsdown system when /stop pressed
-`String Representation (__str__ Method)` -  text representation of the current state of the system
+* `energize_low_level()` and `energize_high_level()` simulate the closing of contacts for the low and high-level sensors, respectively.
+* When a sensor is energized, the `update_system()` method is called to adjust the system’s state.
+* `stop_system(self)` - stop system
+* `delayed_valve_open(self)` - delays valve opening for 9-seconds
+* `shutdown_system(self)` - shutsdown system when /stop pressed
+* `String Representation (__str__ Method)` -  text representation of the current state of the system
 
 
 [middleware/authMiddleware](./middleware/authMiddleware.js)
- Ensures that only authenticated users can access these routes.
+ - Ensures that only authenticated users can access these routes.
 
 [models/SystemState](./models/SystemState.js)
- builds/represents the schema of the current state of the system (stored in MongoDB).
+ - builds/represents the schema of the current state of the system (stored in MongoDB).
 
 [models/User](./models/User.js)
- builds User schema, hashes password, compares given password if it exist in db.
+ - builds User schema, hashes password, compares given password if it exist in db.
 
 [routes/waterController](./routes/waterController.js)
-Real-Time Updates: After each state change, the new state is emitted to connected clients using req.io.emit('update', systemState).
-Routes:
-`GET /api/water/status`: Returns the current system state.
-`POST /api/water/start`: Starts the pumps and updates the system state to "running".
-`POST /api/water/stop`: Stops the pumps and closes the valve.
-`POST /api/water/high_level_sensor`: Simulates the high-level sensor triggering the valve to discharge water.
+- Real-Time Updates: After each state change, the new state is emitted to connected clients using req.io.emit('update', systemState).
+- Routes:
+* `GET /api/water/status`: Returns the current system state.
+* `POST /api/water/start`: Starts the pumps and updates the system state to "running".
+* `POST /api/water/stop`: Stops the pumps and closes the valve.
+* `POST /api/water/high_level_sensor`: Simulates the high-level sensor triggering the valve to discharge water.
 
 ## Auth & Auth with Hashed Passwords
 [routes/auth](./routes/auth.js)
- `/register` - register a new user, returns error if user exist
- `/login` - signs is user with JWT token
+* `/register` - register a new user, returns error if user exist
+* `/login` - signs is user with JWT token
 
 ## Dynamic Aspects of the Project
 
-1.Real-Time System Updates:
+- 1.Real-Time System Updates:
 The system involves real-time updates, where the state of pumps, valves, and tank levels changes based on sensor inputs and user interactions.
 The backend handles real-time communication using technologies like WebSockets (with Socket.io) to update the frontend dynamically.
-2.Real-Time Communication:
+- 2.Real-Time Communication:
 The use of Node.js with Express and Socket.io allows for real-time communication between the server and clients.
 This means that changes in the system’s state (e.g., pump status, valve position) are communicated in real time to the frontend, updating the display immediately.
-3.Interactive Frontend:
+- 3.Interactive Frontend:
 The frontend uses HTML, CSS, and JavaScript to interact with the backend, displaying dynamic content based on the system’s state.
 User interactions with the web interface can trigger updates and reflect changes in the system's status.
-4.Backend Logic:
+- 4.Backend Logic:
 The backend, written in Python, dynamically processes input from sensors and manages the state of the system.
 It updates the system’s state based on sensor inputs and communicates these updates to the frontend in real time.
 
