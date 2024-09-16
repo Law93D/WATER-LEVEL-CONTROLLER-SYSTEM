@@ -73,23 +73,27 @@ Display: Idle
 Pump 1: OFF
 Pump 2: OFF
 Valve: CLOSED
-
+</ul>
+<ul>
 Display: Low Level – Filling
 Pump 1: ON
 Pump 2: ON
 Valve: CLOSED
-
+</ul>
+<ul>
 Display: Running – Discharging
 Pump 1: OFF
 Pump 2: OFF
 Valve: OPEN
-
+</ul>
+<ul>
 Display: System Stopped
 Pump 1: OFF
 Pump 2: OFF
 Valve: CLOSED
 </ul>
-PS C:\Users\Lenovo\OneDrive\Desktop\ALX Projects Backend\Water-Level-Controller-System>
+
+>PS C:\Users\Lenovo\OneDrive\Desktop\ALX Projects Backend\Water-Level-Controller-System>
 
 ### Server.js ?? Run
 
