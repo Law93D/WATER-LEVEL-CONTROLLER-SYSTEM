@@ -65,7 +65,7 @@ Execution:
 ## run Backend-structure for simulation
 
  python3 Backend-structure.py
-
+``
 // Run the script to simulate the water level controller operation
 PS C:\Users\Lenovo\OneDrive\Desktop\ALX Projects Backend\Water-Level-Controller-System>python3 Backend-structure.py
 Display: Idle
@@ -88,7 +88,7 @@ Pump 1: OFF
 Pump 2: OFF
 Valve: CLOSED
 PS C:\Users\Lenovo\OneDrive\Desktop\ALX Projects Backend\Water-Level-Controller-System>
-
+``
 ### Server.js ?? Run
 
 node server.js/ npm start
@@ -137,5 +137,5 @@ curl -X POST http://localhost:5000/api/water/high_level_sensor -H "Authorization
 ```
 ## Authors
 
-Lawrence Denhere - [Github](https://github.com/Law93D) / [Twitter](https://x.com/LawDen93)
-Ogofoluwa Ibitola - [Github](https://github.com/folujam) / [Twitter](https://x.com/ogofoluwa)
+- Lawrence Denhere - [Github](https://github.com/Law93D) / [Twitter](https://x.com/LawDen93)
+- Ogofoluwa Ibitola - [Github](https://github.com/folujam) / [Twitter](https://x.com/ogofoluwa)
