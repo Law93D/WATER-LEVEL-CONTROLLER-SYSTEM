@@ -68,25 +68,30 @@ Execution:
 
 <h4>Run the script to simulate the water level controller operation</h4>
 PS C:\Users\Lenovo\OneDrive\Desktop\ALX Projects Backend\Water-Level-Controller-System>python3 Backend-structure.py
+<ul>
 Display: Idle
 Pump 1: OFF
 Pump 2: OFF
 Valve: CLOSED
-
-<h3>Display: Low Level – Filling</h3>
+</ul>
+<ul>
+Display: Low Level – Filling
 Pump 1: ON
 Pump 2: ON
 Valve: CLOSED
-
-<h3>Display: Running – Discharging</h3>
+</ul>
+<ul>
+Display: Running – Discharging
 Pump 1: OFF
 Pump 2: OFF
 Valve: OPEN
-
-<h3>Display: System Stopped</h3>
+</ul>
+<ul
+>Display: System Stopped
 Pump 1: OFF
 Pump 2: OFF
 Valve: CLOSED
+</ul>
 PS C:\Users\Lenovo\OneDrive\Desktop\ALX Projects Backend\Water-Level-Controller-System>
 
 ### Server.js ?? Run
