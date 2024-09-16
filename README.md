@@ -1,33 +1,40 @@
 # WATER-LEVEL-CONTROLLER-SYSTEM
 
-This is a backend stack that monitors the water level in a tank, controls the on and off capabilities of a valve with the help of sensors that relay signals.
+This is a simple backend stack that monitors the water level in a tank, controls the on and off capabilities of a valve with the help of sensors that relay signals.
 
 Initialization (__init__ Method):
 Initializes the pumps, valve, sensors, display screen, and stop button to their default states.
 
-## Energize Methods
-
+[Backend-structure.py](./Backend-structure.py)
 `energize_low_level()` and `energize_high_level()` simulate the closing of contacts for the low and high-level sensors, respectively.
 When a sensor is energized, the `update_system()` method is called to adjust the system’s state.
+`stop_system(self)` - stop system
+`delayed_valve_open(self)` - delays valve opening for 9-seconds
+`shutdown_system(self)` - shutsdown system when /stop pressed
+`String Representation (__str__ Method)` -  text representation of the current state of the system
 
-### Update System (update_system Method)
 
-Controls the pumps and valve based on the sensor inputs.
-If the low-level sensor is active, the pumps turn on, and the valve remains closed.
-If the high-level sensor is active, the pumps turn off, and the valve opens after a 9-second delay.
+[middleware/authMiddleware](./middleware/authMiddleware.js)
+ Ensures that only authenticated users can access these routes.
 
-### Delayed Valve Open (delayed_valve_open Method)
+[models/SystemState](./models/SystemState.js)
+ builds/represents the schema of the current state of the system (stored in MongoDB).
 
-Introduces a 9-second delay before opening the valve and starting the water discharge process.
-After opening the valve, the system resets the sensor states for the next cycle.
+[models/User](./models/User.js)
+ builds User schema, hashes password, compares given password if it exist in db.
 
-### Shutdown System (shutdown_system Method)
+[routes/waterController](./routes/waterController.js)
+Real-Time Updates: After each state change, the new state is emitted to connected clients using req.io.emit('update', systemState).
+Routes:
+`GET /api/water/status`: Returns the current system state.
+`POST /api/water/start`: Starts the pumps and updates the system state to "running".
+`POST /api/water/stop`: Stops the pumps and closes the valve.
+`POST /api/water/high_level_sensor`: Simulates the high-level sensor triggering the valve to discharge water.
 
-Shuts down the system when the stop button is pressed, turning off the pumps and closing the valve.
-
-### String Representation (__str__ Method)
-
-Provides a text representation of the current state of the system, which is useful for debugging or displaying the status.
+## Auth & Auth with Hashed Passwords
+[routes/auth](./routes/auth.js)
+ `/register` - register a new user, returns error if user exist
+ `/login` - signs is user with JWT token
 
 ## Dynamic Aspects of the Project
 
@@ -44,12 +51,6 @@ User interactions with the web interface can trigger updates and reflect changes
 The backend, written in Python, dynamically processes input from sensors and manages the state of the system.
 It updates the system’s state based on sensor inputs and communicates these updates to the frontend in real time.
 
-## Auth & Auth with Hashed Passwords
-
-authMiddleware: Ensures that only authenticated users can access these routes.
-SystemState Model: Represents the current state of the system (stored in MongoDB).
-Real-Time Updates: After each state change, the new state is emitted to connected clients using req.io.emit('update', systemState).
-
 ## Dependencies
 * install winston for logger `cd ~/MyApp` `npm install winston`
 * install dotenv `npm install dotenv`
@@ -58,17 +59,6 @@ Real-Time Updates: After each state change, the new state is emitted to connecte
 ## Example of Usage
 
 The example at the bottom shows how the system operates by simulating the energizing of sensors and pressing the stop button.
-
-## Authorization & Authentication with Hashed Passwords
-
-authMiddleware: Ensures that only authenticated users can access these routes.
-SystemState Model: Represents the current state of the system (stored in MongoDB).
-Real-Time Updates: After each state change, the new state is emitted to connected clients using req.io.emit('update', systemState).
-Routes:
-`GET /api/water/status`: Returns the current system state.
-`POST /api/water/start`: Starts the pumps and updates the system state to "running".
-`POST /api/water/stop`: Stops the pumps and closes the valve.
-`POST /api/water/high_level_sensor`: Simulates the high-level sensor triggering the valve to discharge water.
 
 Execution:
 
