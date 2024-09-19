@@ -111,7 +111,7 @@ The console output will show the state of the system at different points, reflec
 
 1.User Register (post): This endpoint creates a new user in your system.
 ```
-curl -X POST curl -X POST http://localhost:5000/api/auth/register -H "Content-Type: application/json" -d '
+curl -X POST http://localhost:5000/api/auth/register -H "Content-Type: application/json" -d '
 {"username":"<your_username>","password":"<123******>"}'
 ```
 2.User Login (post): This will authenticate a user and return a JWT token.
